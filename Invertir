@@ -1,0 +1,69 @@
+import java.util.Scanner;
+
+public class Invertir {
+    public static void main(String[] args) {
+
+        Scanner s = new Scanner(System.in);
+
+        //texto a invertir
+        System.out.println("ingrese el texto a invertir");
+        String a = s.nextLine();
+        StringBuilder b = new StringBuilder(a);
+
+        int parantesisInicio = 0;
+        int parentesisFinal = 0;
+        int largoB = b.length();
+
+        //pares de parentesis
+        for (int i = 0; i < largoB; i++) {
+            if (b.charAt(i) == '(') {
+                parantesisInicio++;
+            } else if (b.charAt(i) == ')') {
+                parentesisFinal++;
+            }
+        }
+
+        //posibles salidas
+        if (parantesisInicio == parentesisFinal) {
+            if (parantesisInicio == 0) {
+                System.out.println("no hay parentesis");
+            } else {
+                while (b.indexOf("(") != -1) {
+                    primero:
+                    for (int i = 0; i < b.length(); i++) {
+
+                        if (b.charAt(i) == '(') {
+                            StringBuilder c = new StringBuilder(b.substring(i + 1));
+
+                            for (int j = 0; j < c.length(); j++) {
+
+                                if (c.charAt(j) == '(') {
+                                    continue primero;
+                                } else if (c.charAt(j) == ')') {
+                                    c = new StringBuilder(c.substring(0, j));
+                                    c = new StringBuilder(c.reverse());
+                                    b.replace(i + 1, i + j + 1, c.toString());
+                                    b.deleteCharAt(i + j + 1);
+                                    b.deleteCharAt(i);
+                                    break primero;
+                                }
+
+                            }
+                        }
+
+                    }
+                }
+
+            }
+
+        } else {
+            System.out.println("texto invalido, los parentesis no están correctamente implementados" +
+                    "\npor cada inicio, debe haber un fin");
+        }
+
+        //resultado
+        System.out.println("texto sin modificar : " + a);
+        System.out.println("texto modificado : " + b);
+
+    }
+}
